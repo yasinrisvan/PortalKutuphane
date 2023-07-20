@@ -1,0 +1,114 @@
+﻿
+@using LibraryOfPortall.Models.EntityFramework
+@{
+    ViewBag.Title = "_LayoutUser";
+    Layout = null;
+    TblUser user = (TblUser)Session["user"];
+    var userID = user.ID;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>TYH</title>
+    <link href="~/Web/dist/css/styles.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">
+                            <img src="~/Web/TYH greybackground.png" style="width:180px; height:90px;" />
+                        </div>
+                        <div class="sb-sidenav-menu-heading">Kategoriler</div>
+                        <a class="nav-link" href="~/Library/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book"></i>@*<i class="fas fa-bookmark"></i>*@</div>
+                            Kütüphane
+                        </a>
+
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#myLib" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Kitaplığım
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="myLib" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="~/Library/GetReserve">Onaylanan Kitaplar</a>
+                                <a class="nav-link" href="/Library/GetRequest">Talep Ettiğim Kitaplar</a>
+                                @* <a class="nav-link" href="/KargoTransfer/TransferEkle">Transfer Ekle</a>*@
+
+                            </nav>
+                        </div>
+                        <a class="nav-link" href="~/Library/GetAllRequest">
+                            <div class="sb-nav-link-icon"><i class="fas fa-check-double"></i>@*<i class="fas fa-bookmark"></i>*@</div>
+                            Onay Bekleyenler
+                        </a>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#myAccount" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
+                            Hesabım
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="myAccount" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                @*<a class="nav-link" href="~/User/Admin">Admin</a>*@
+                                <a class="nav-link" href="~/User/AccountDetails">Kişisel Bilgilerim</a>
+                                <a class="nav-link" href="/User/SignOut">Çıkış Yap</a>
+                                @* <a class="nav-link" href="/KargoTransfer/TransferEkle">Transfer Ekle</a>*@
+
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="sb-sidenav-footer">
+                    <div class="small">
+                        Giriş Yapıldı: <br />
+                        @user.TblRegion.TblCity.Name /
+                        @user.Name @user.Surname
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+                    @RenderBody()
+                    @Scripts.Render("~/bundles/jquery")
+                    @RenderSection("scripts", required: false)
+                </div>
+            </main>
+            <br />
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; TYH TEKSTİL</div>
+                        <div>
+                            <div class="text-muted">Designed by BT</div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Web/dist/js/scripts.js"></script>
+</body>
+</html>
+

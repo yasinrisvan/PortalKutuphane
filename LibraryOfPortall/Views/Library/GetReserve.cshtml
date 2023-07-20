@@ -1,0 +1,92 @@
+﻿
+@using LibraryOfPortall.Models.EntityFramework
+@model List<TblReserved>
+@{
+    ViewBag.Title = "GetReserve";
+    TblUser user = (TblUser)Session["user"];
+    TblUser authority = new TblUser();
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    authority.AuthorityID = user is null ? authority.AuthorityID = 3 : authority.AuthorityID = user.AuthorityID;
+}
+
+<h4 style="text-align:center; margin-top:15px"> Onaylanan Kitaplar / Kitaplığımdaki Kitaplar </h4>
+<link href="~/Web/dist/css/styles.css" rel="stylesheet" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+
+<div class="col-12">
+    <table id="tbl1" class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>Kullanıcı Ad Soyad</th>
+                <th>Bulunduğu Bölge</th>
+                <th>Kitap - Dergi Adı</th>
+                <th>Yazar</th>
+                <th>Onay Tarihi</th>
+
+                <th>İşlemler</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reserve in Model)
+            {
+                <tr>
+
+                    <td>@reserve.TblUser.Name @reserve.TblUser.Surname </td>
+                    <td>@reserve.TblUser.TblRegion.Name</td>
+                    <td>@reserve.TblBook.BookName</td>
+                    <td>@reserve.TblBook.Author</td>
+                    <td>@reserve.AcceptDate</td>
+                    @if (reserve.Status is false)
+                    {
+                        <td>Teslim Edildi</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a href="~/Library/PickUp/@reserve.ID" class="btn btn-outline-info">Teslim Et</a>
+                        </td>
+                    }
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="~/Web/dist/js/scripts.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link href="~/Content/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+<script>
+    $('#tbl1').dataTable({
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+        },
+        order: [[0, 'desc']],
+    });
+</script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@{
+    if (TempData["Message"] != null)
+    {
+        <script>
+        swal("UYARI !", "@TempData["Message"]", "warning");
+        </script>
+    }
+    if (TempData["MessageSuccess"] != null)
+    {
+        <script>
+        swal("BAŞARILI !", "@TempData["MessageSuccess"]", "success");
+        </script>
+    }
+}

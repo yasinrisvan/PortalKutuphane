@@ -1,0 +1,104 @@
+﻿
+@using LibraryOfPortall.Models.EntityFramework
+@model List<TblRequest>
+@{
+    ViewBag.Title = "GetAllRequest";
+    TblUser user = (TblUser)Session["user"];
+    TblUser authority = new TblUser();
+    authority.AuthorityID = user is null ? authority.AuthorityID = 3 : authority.AuthorityID = user.AuthorityID;
+
+    Layout = user is null ? null : "~/Views/Shared/_LayoutUser.cshtml";
+}
+<h4 style="text-align:center; margin-top:15px"> Onay Bekleyenler </h4>
+<link href="~/Web/dist/css/styles.css" rel="stylesheet" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+<div class="col">
+    <div class="col-2">
+        @if (authority.AuthorityID == 3)
+        {
+            <a href="/User/SignIn" class="btn btn-outline-dark">Sisteme Giriş</a>
+        }
+    </div>
+</div>
+<p>
+</p>
+<div class="col-12">
+    <table id="tbl1" class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>Kullanıcı Ad Soyad</th>
+                <th>Bulunduğu Bölge</th>
+                <th>Talep Tarihi</th>
+                <th>Kitap - Dergi Adı</th>
+                <th>Yazar</th>
+                @*<th>Yayınevi</th>*@
+                @*<th>Durum</th>*@
+                @if (authority.AuthorityID == 2 || authority.AuthorityID == 1)
+                {
+                    <th>İşlemler</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+
+                    <td>@request.TblUser.Name @request.TblUser.Surname </td>
+                    <td>@request.TblUser.TblRegion.Name</td>
+                    <td>@request.ApplyDate</td>
+                    <td>@request.TblBook.BookName</td>
+                    <td>@request.TblBook.Author</td>
+                    @*<td>kabul or red</td>*@
+                    @*<td>@book.PublishingHouse</td>*@
+                    @*<td>@book.Status</td>*@
+                    @if (authority.AuthorityID == 2 || authority.AuthorityID == 1)
+                    {
+                <td>
+                    @*@Html.ActionLink("Onayla", "Accept", new { id = request.ID }, new { @class = "btn btn-success" })*@
+                    <a href="~/Library/Accept/@request.ID" class="btn btn-success">Onayla</a>
+
+                    @Html.ActionLink("Reddet", "Decline", new { id = request.ID }, new { @class = "btn btn-danger", onclick = "return confirm('Gerçekten Reddetmek İstiyor Musunuz?')" })
+                </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="~/Web/dist/js/scripts.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link href="~/Content/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+<script>
+    $('#tbl1').dataTable({
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+        },
+        order: [[0, 'desc']],
+    });
+</script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@{
+    if (TempData["Message"] != null)
+    {
+        <script>
+        swal("UYARI !", "@TempData["Message"]", "warning");
+        </script>
+    }
+    if (TempData["MessageSuccess"] != null)
+    {
+        <script>
+        swal("BAŞARILI !", "@TempData["MessageSuccess"]", "success");
+        </script>
+    }
+}

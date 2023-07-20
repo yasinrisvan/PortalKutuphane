@@ -1,0 +1,92 @@
+﻿
+@using LibraryOfPortall.Models.EntityFramework;
+
+@model TblUser
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<head>
+    <title>Kayıt Ol - TYH</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/Content/login/css/style.css" rel="stylesheet" />
+</head>
+<body class="img js-fullheight" style="background-image: url('../../Content/login/images/library.jpg');">
+
+    <section class="ftco-section">
+        <div style="text-align:center">
+            <img src="~/Web/TYH greybackground.png" style="width:180px; height:90px;" />
+        </div><br />
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6  text-center mb-1">
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
+                        <h3 class="mb-4 text-center">Hesap Bilgilerinizi Giriniz</h3>
+
+                        <form method="post" class="signin-form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Adınız" name="Name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Soyadınız" name="Surname" required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="tel" class="form-control" placeholder="TC Kimlik Numaranız" maxlength="11" name="TC" required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="tel" class="form-control" placeholder="Telefon Numaranız" maxlength="11" name="PhoneNo" required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="number" class="form-control" placeholder="Sicil Numaranız" name="RegistryNo" required>
+                            </div>
+
+                            <div class="form-group" name="RegionID" required>
+                                @Html.DropDownListFor(m => m.RegionID, (List<SelectListItem>)ViewBag.Regions, "Bölgenizi Seçiniz", new { @class = "form-control", @style = "background-color:#ee7600", required = "Bölge Boş Geçilemez" })
+                            </div>
+
+                            <div class="form-group" name="DepartmentID" required>
+                                @Html.DropDownListFor(m => m.DepartmentID, (List<SelectListItem>)ViewBag.Departments, "Departmanınızı Seçiniz", new { @class = "form-control", @style = "background-color:#ee7600", required = "Departman Boş Geçilemez" })
+                            </div>
+
+                            <div class="form-group">
+                                <input id="password-field" type="password" class="form-control" placeholder="Kullanmak İstediğiniz Şifreniz" name="Password" required>
+                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            @*<div class="form-group">
+                                    <input id="password-field" type="password" class="form-control" placeholder="Tekrar Şifre" name="Sifre" required>
+                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                </div>*@
+                            <br />
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+
+                                    <div class="btn-group" role="group">
+                                        <button type="submit" class="form-control" style="background-color: black">Kaydı Tamamla</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Content/login/js/jquery.min.js"></script>
+    <script src="~/Content/login/js/main.js"></script>
+</body>

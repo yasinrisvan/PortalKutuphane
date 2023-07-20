@@ -1,0 +1,676 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TYHKUTUPHANEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TblAuthorities">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TblBooks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DateOfEntry" Type="datetime" />
+          <Property Name="CategoryID" Type="tinyint" />
+          <Property Name="RegionID" Type="tinyint" />
+          <Property Name="Code" Type="nvarchar" MaxLength="30" />
+          <Property Name="BookName" Type="nvarchar" MaxLength="150" />
+          <Property Name="Author" Type="nvarchar" MaxLength="150" />
+          <Property Name="PublishingHouse" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="TblCategories">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="TblCities">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TblDepartments">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="TblRegions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="25" />
+          <Property Name="Address" Type="nvarchar" MaxLength="70" />
+          <Property Name="CityID" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="TblRequests">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="BookID" Type="int" />
+          <Property Name="ApplyDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Status" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="TblReserveds">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="BookID" Type="int" />
+          <Property Name="AcceptDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="TblUsers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="30" />
+          <Property Name="Tc" Type="nvarchar" MaxLength="11" />
+          <Property Name="RegistryNo" Type="nvarchar" MaxLength="6" />
+          <Property Name="RegionID" Type="tinyint" />
+          <Property Name="DepartmentID" Type="tinyint" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" />
+          <Property Name="AuthorityID" Type="tinyint" />
+        </EntityType>
+        <Association Name="FK_TblBooks_TblCategories">
+          <End Role="TblCategories" Type="Self.TblCategories" Multiplicity="0..1" />
+          <End Role="TblBooks" Type="Self.TblBooks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblCategories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblBooks">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblBooks_TblRegions">
+          <End Role="TblRegions" Type="Self.TblRegions" Multiplicity="0..1" />
+          <End Role="TblBooks" Type="Self.TblBooks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRegions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblBooks">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblRegions_TblCities">
+          <End Role="TblCities" Type="Self.TblCities" Multiplicity="0..1" />
+          <End Role="TblRegions" Type="Self.TblRegions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblCities">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblRegions">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblRequests_TblBooks">
+          <End Role="TblBooks" Type="Self.TblBooks" Multiplicity="0..1" />
+          <End Role="TblRequests" Type="Self.TblRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblBooks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblRequests">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblRequests_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="0..1" />
+          <End Role="TblRequests" Type="Self.TblRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblRequests">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblReserveds_TblBooks">
+          <End Role="TblBooks" Type="Self.TblBooks" Multiplicity="0..1" />
+          <End Role="TblReserveds" Type="Self.TblReserveds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblBooks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblReserveds">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblReserveds_TblUsers">
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="0..1" />
+          <End Role="TblReserveds" Type="Self.TblReserveds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUsers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblReserveds">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblUsers_TblAuthorities">
+          <End Role="TblAuthorities" Type="Self.TblAuthorities" Multiplicity="0..1" />
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblAuthorities">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblUsers">
+              <PropertyRef Name="AuthorityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblUsers_TblDepartments">
+          <End Role="TblDepartments" Type="Self.TblDepartments" Multiplicity="0..1" />
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblDepartments">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblUsers">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblUsers_TblRegions">
+          <End Role="TblRegions" Type="Self.TblRegions" Multiplicity="0..1" />
+          <End Role="TblUsers" Type="Self.TblUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRegions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblUsers">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TYHKUTUPHANEModelStoreContainer">
+          <EntitySet Name="TblAuthorities" EntityType="Self.TblAuthorities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblBooks" EntityType="Self.TblBooks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblCategories" EntityType="Self.TblCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblCities" EntityType="Self.TblCities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblDepartments" EntityType="Self.TblDepartments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblRegions" EntityType="Self.TblRegions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblRequests" EntityType="Self.TblRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblReserveds" EntityType="Self.TblReserveds" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUsers" EntityType="Self.TblUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TblBooks_TblCategories" Association="Self.FK_TblBooks_TblCategories">
+            <End Role="TblCategories" EntitySet="TblCategories" />
+            <End Role="TblBooks" EntitySet="TblBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblBooks_TblRegions" Association="Self.FK_TblBooks_TblRegions">
+            <End Role="TblRegions" EntitySet="TblRegions" />
+            <End Role="TblBooks" EntitySet="TblBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblRegions_TblCities" Association="Self.FK_TblRegions_TblCities">
+            <End Role="TblCities" EntitySet="TblCities" />
+            <End Role="TblRegions" EntitySet="TblRegions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblRequests_TblBooks" Association="Self.FK_TblRequests_TblBooks">
+            <End Role="TblBooks" EntitySet="TblBooks" />
+            <End Role="TblRequests" EntitySet="TblRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblRequests_TblUsers" Association="Self.FK_TblRequests_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblRequests" EntitySet="TblRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblReserveds_TblBooks" Association="Self.FK_TblReserveds_TblBooks">
+            <End Role="TblBooks" EntitySet="TblBooks" />
+            <End Role="TblReserveds" EntitySet="TblReserveds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblReserveds_TblUsers" Association="Self.FK_TblReserveds_TblUsers">
+            <End Role="TblUsers" EntitySet="TblUsers" />
+            <End Role="TblReserveds" EntitySet="TblReserveds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblUsers_TblAuthorities" Association="Self.FK_TblUsers_TblAuthorities">
+            <End Role="TblAuthorities" EntitySet="TblAuthorities" />
+            <End Role="TblUsers" EntitySet="TblUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblUsers_TblDepartments" Association="Self.FK_TblUsers_TblDepartments">
+            <End Role="TblDepartments" EntitySet="TblDepartments" />
+            <End Role="TblUsers" EntitySet="TblUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblUsers_TblRegions" Association="Self.FK_TblUsers_TblRegions">
+            <End Role="TblRegions" EntitySet="TblRegions" />
+            <End Role="TblUsers" EntitySet="TblUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TYHKUTUPHANEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TblBook">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DateOfEntry" Type="DateTime" Precision="3" />
+          <Property Name="CategoryID" Type="Byte" />
+          <Property Name="RegionID" Type="Byte" />
+          <Property Name="Code" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="BookName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PublishingHouse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="TblCategory" Relationship="Self.FK_TblBooks_TblCategories" FromRole="TblBooks" ToRole="TblCategories" />
+          <NavigationProperty Name="TblRegion" Relationship="Self.FK_TblBooks_TblRegions" FromRole="TblBooks" ToRole="TblRegions" />
+          <NavigationProperty Name="TblReserveds" Relationship="TYHKUTUPHANEModel.FK_TblReserveds_TblBooks" FromRole="TblBook" ToRole="TblReserved" />
+          <NavigationProperty Name="TblRequests" Relationship="TYHKUTUPHANEModel.FK_TblRequests_TblBooks" FromRole="TblBook" ToRole="TblRequest" />
+        </EntityType>
+        <EntityType Name="TblCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblBooks" Relationship="Self.FK_TblBooks_TblCategories" FromRole="TblCategories" ToRole="TblBooks" />
+        </EntityType>
+        <EntityType Name="TblCity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="TblRegions" Relationship="Self.FK_TblRegions_TblCities" FromRole="TblCities" ToRole="TblRegions" />
+        </EntityType>
+        <EntityType Name="TblRegion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="CityID" Type="Byte" />
+          <NavigationProperty Name="TblBooks" Relationship="Self.FK_TblBooks_TblRegions" FromRole="TblRegions" ToRole="TblBooks" />
+          <NavigationProperty Name="TblCity" Relationship="Self.FK_TblRegions_TblCities" FromRole="TblRegions" ToRole="TblCities" />
+          <NavigationProperty Name="TblUsers" Relationship="TYHKUTUPHANEModel.FK_TblUsers_TblRegions" FromRole="TblRegion" ToRole="TblUser" />
+        </EntityType>
+        <Association Name="FK_TblBooks_TblCategories">
+          <End Role="TblCategories" Type="Self.TblCategory" Multiplicity="0..1" />
+          <End Role="TblBooks" Type="Self.TblBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblCategories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblBooks">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblBooks_TblRegions">
+          <End Role="TblRegions" Type="Self.TblRegion" Multiplicity="0..1" />
+          <End Role="TblBooks" Type="Self.TblBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRegions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblBooks">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblRegions_TblCities">
+          <End Role="TblCities" Type="Self.TblCity" Multiplicity="0..1" />
+          <End Role="TblRegions" Type="Self.TblRegion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblCities">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblRegions">
+              <PropertyRef Name="CityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TYHKUTUPHANEEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TblBooks" EntityType="Self.TblBook" />
+          <EntitySet Name="TblCategories" EntityType="Self.TblCategory" />
+          <EntitySet Name="TblCities" EntityType="Self.TblCity" />
+          <EntitySet Name="TblRegions" EntityType="Self.TblRegion" />
+          <AssociationSet Name="FK_TblBooks_TblCategories" Association="Self.FK_TblBooks_TblCategories">
+            <End Role="TblCategories" EntitySet="TblCategories" />
+            <End Role="TblBooks" EntitySet="TblBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblBooks_TblRegions" Association="Self.FK_TblBooks_TblRegions">
+            <End Role="TblRegions" EntitySet="TblRegions" />
+            <End Role="TblBooks" EntitySet="TblBooks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblRegions_TblCities" Association="Self.FK_TblRegions_TblCities">
+            <End Role="TblCities" EntitySet="TblCities" />
+            <End Role="TblRegions" EntitySet="TblRegions" />
+          </AssociationSet>
+          <EntitySet Name="TblAuthorities" EntityType="TYHKUTUPHANEModel.TblAuthority" />
+          <EntitySet Name="TblDepartments" EntityType="TYHKUTUPHANEModel.TblDepartment" />
+          <EntitySet Name="TblReserveds" EntityType="TYHKUTUPHANEModel.TblReserved" />
+          <EntitySet Name="TblUsers" EntityType="TYHKUTUPHANEModel.TblUser" />
+          <AssociationSet Name="FK_TblUsers_TblAuthorities" Association="TYHKUTUPHANEModel.FK_TblUsers_TblAuthorities">
+            <End Role="TblAuthority" EntitySet="TblAuthorities" />
+            <End Role="TblUser" EntitySet="TblUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblUsers_TblDepartments" Association="TYHKUTUPHANEModel.FK_TblUsers_TblDepartments">
+            <End Role="TblDepartment" EntitySet="TblDepartments" />
+            <End Role="TblUser" EntitySet="TblUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblUsers_TblRegions" Association="TYHKUTUPHANEModel.FK_TblUsers_TblRegions">
+            <End Role="TblRegion" EntitySet="TblRegions" />
+            <End Role="TblUser" EntitySet="TblUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblReserveds_TblBooks" Association="TYHKUTUPHANEModel.FK_TblReserveds_TblBooks">
+            <End Role="TblBook" EntitySet="TblBooks" />
+            <End Role="TblReserved" EntitySet="TblReserveds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblReserveds_TblUsers" Association="TYHKUTUPHANEModel.FK_TblReserveds_TblUsers">
+            <End Role="TblUser" EntitySet="TblUsers" />
+            <End Role="TblReserved" EntitySet="TblReserveds" />
+          </AssociationSet>
+          <EntitySet Name="TblRequests" EntityType="TYHKUTUPHANEModel.TblRequest" />
+          <AssociationSet Name="FK_TblRequests_TblBooks" Association="TYHKUTUPHANEModel.FK_TblRequests_TblBooks">
+            <End Role="TblBook" EntitySet="TblBooks" />
+            <End Role="TblRequest" EntitySet="TblRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TblRequests_TblUsers" Association="TYHKUTUPHANEModel.FK_TblRequests_TblUsers">
+            <End Role="TblUser" EntitySet="TblUsers" />
+            <End Role="TblRequest" EntitySet="TblRequests" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="TblAuthority">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblUsers" Relationship="TYHKUTUPHANEModel.FK_TblUsers_TblAuthorities" FromRole="TblAuthority" ToRole="TblUser" />
+        </EntityType>
+        <EntityType Name="TblDepartment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblUsers" Relationship="TYHKUTUPHANEModel.FK_TblUsers_TblDepartments" FromRole="TblDepartment" ToRole="TblUser" />
+        </EntityType>
+        <EntityType Name="TblReserved">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="BookID" Type="Int32" />
+          <Property Name="AcceptDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="TblBook" Relationship="TYHKUTUPHANEModel.FK_TblReserveds_TblBooks" FromRole="TblReserved" ToRole="TblBook" />
+          <NavigationProperty Name="TblUser" Relationship="TYHKUTUPHANEModel.FK_TblReserveds_TblUsers" FromRole="TblReserved" ToRole="TblUser" />
+        </EntityType>
+        <EntityType Name="TblUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Tc" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="RegistryNo" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="RegionID" Type="Byte" />
+          <Property Name="DepartmentID" Type="Byte" />
+          <Property Name="PhoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorityID" Type="Byte" />
+          <NavigationProperty Name="TblAuthority" Relationship="TYHKUTUPHANEModel.FK_TblUsers_TblAuthorities" FromRole="TblUser" ToRole="TblAuthority" />
+          <NavigationProperty Name="TblDepartment" Relationship="TYHKUTUPHANEModel.FK_TblUsers_TblDepartments" FromRole="TblUser" ToRole="TblDepartment" />
+          <NavigationProperty Name="TblRegion" Relationship="TYHKUTUPHANEModel.FK_TblUsers_TblRegions" FromRole="TblUser" ToRole="TblRegion" />
+          <NavigationProperty Name="TblReserveds" Relationship="TYHKUTUPHANEModel.FK_TblReserveds_TblUsers" FromRole="TblUser" ToRole="TblReserved" />
+          <NavigationProperty Name="TblRequests" Relationship="TYHKUTUPHANEModel.FK_TblRequests_TblUsers" FromRole="TblUser" ToRole="TblRequest" />
+        </EntityType>
+        <Association Name="FK_TblUsers_TblAuthorities">
+          <End Type="TYHKUTUPHANEModel.TblAuthority" Role="TblAuthority" Multiplicity="0..1" />
+          <End Type="TYHKUTUPHANEModel.TblUser" Role="TblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblAuthority">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblUser">
+              <PropertyRef Name="AuthorityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblUsers_TblDepartments">
+          <End Type="TYHKUTUPHANEModel.TblDepartment" Role="TblDepartment" Multiplicity="0..1" />
+          <End Type="TYHKUTUPHANEModel.TblUser" Role="TblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblDepartment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblUser">
+              <PropertyRef Name="DepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblUsers_TblRegions">
+          <End Type="TYHKUTUPHANEModel.TblRegion" Role="TblRegion" Multiplicity="0..1" />
+          <End Type="TYHKUTUPHANEModel.TblUser" Role="TblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblRegion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblUser">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblReserveds_TblBooks">
+          <End Type="TYHKUTUPHANEModel.TblBook" Role="TblBook" Multiplicity="0..1" />
+          <End Type="TYHKUTUPHANEModel.TblReserved" Role="TblReserved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblBook">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblReserved">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblReserveds_TblUsers">
+          <End Type="TYHKUTUPHANEModel.TblUser" Role="TblUser" Multiplicity="0..1" />
+          <End Type="TYHKUTUPHANEModel.TblReserved" Role="TblReserved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblReserved">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TblRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="BookID" Type="Int32" />
+          <Property Name="ApplyDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblBook" Relationship="TYHKUTUPHANEModel.FK_TblRequests_TblBooks" FromRole="TblRequest" ToRole="TblBook" />
+          <NavigationProperty Name="TblUser" Relationship="TYHKUTUPHANEModel.FK_TblRequests_TblUsers" FromRole="TblRequest" ToRole="TblUser" />
+        </EntityType>
+        <Association Name="FK_TblRequests_TblBooks">
+          <End Type="TYHKUTUPHANEModel.TblBook" Role="TblBook" Multiplicity="0..1" />
+          <End Type="TYHKUTUPHANEModel.TblRequest" Role="TblRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblBook">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblRequest">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TblRequests_TblUsers">
+          <End Type="TYHKUTUPHANEModel.TblUser" Role="TblUser" Multiplicity="0..1" />
+          <End Type="TYHKUTUPHANEModel.TblRequest" Role="TblRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TblRequest">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TYHKUTUPHANEModelStoreContainer" CdmEntityContainer="TYHKUTUPHANEEntities">
+          <EntitySetMapping Name="TblBooks">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblBook">
+              <MappingFragment StoreEntitySet="TblBooks">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DateOfEntry" ColumnName="DateOfEntry" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="BookName" ColumnName="BookName" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="PublishingHouse" ColumnName="PublishingHouse" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblCategories">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblCategory">
+              <MappingFragment StoreEntitySet="TblCategories">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblCities">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblCity">
+              <MappingFragment StoreEntitySet="TblCities">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblRegions">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblRegion">
+              <MappingFragment StoreEntitySet="TblRegions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblAuthorities">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblAuthority">
+              <MappingFragment StoreEntitySet="TblAuthorities">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblDepartments">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblDepartment">
+              <MappingFragment StoreEntitySet="TblDepartments">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblReserveds">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblReserved">
+              <MappingFragment StoreEntitySet="TblReserveds">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="AcceptDate" ColumnName="AcceptDate" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUsers">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblUser">
+              <MappingFragment StoreEntitySet="TblUsers">
+                <ScalarProperty Name="AuthorityID" ColumnName="AuthorityID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="RegistryNo" ColumnName="RegistryNo" />
+                <ScalarProperty Name="Tc" ColumnName="Tc" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblRequests">
+            <EntityTypeMapping TypeName="TYHKUTUPHANEModel.TblRequest">
+              <MappingFragment StoreEntitySet="TblRequests">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="ApplyDate" ColumnName="ApplyDate" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
