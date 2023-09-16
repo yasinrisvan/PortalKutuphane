@@ -68,12 +68,12 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @{ 
     
-    if (@ViewBag.Message != null)
+    @*if (@ViewBag.Messages != null)
     {
         <script>
-        swal("UYARI !", "@ViewBag.Message", "warning");
+        swal("UYARI", "@ViewBag.Messages", "warning");
         </script>
-    }
+    }*@
     if (@ViewBag.MessageSuccess != null)
     {
         <script>

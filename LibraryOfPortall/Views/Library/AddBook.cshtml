@@ -1,0 +1,40 @@
+﻿@using LibraryOfPortall.Models.EntityFramework
+@model LibraryOfPortall.Models.EntityFramework.TblBook
+
+@{ ViewBag.Title = "AddBook";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml"; }
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+<h4 style="text-align:center; margin-top:15px"> Kitap Ekleme Sayfası </h4>
+
+@using (Html.BeginForm("AddBook", "Library", FormMethod.Post))
+{
+<div class="form-group">
+    <div class="row">
+        <label>Kitap/Dergi Adı</label>
+        @Html.TextBoxFor(m => m.BookName, new { @class = "form-control", @placeholder = "Kitap Adı", @maxlength = "150", @required = "" })
+    </div>
+    <div class="row">
+        <label>Yazar</label>
+        @Html.TextBoxFor(m => m.Author, new { @class = "form-control", @placeholder = "Yazar Adı", @maxlength = "150", @required = "" })
+    </div>
+    <div class="row">
+        <label>Kitap Kodu</label>
+        @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @placeholder = "Kitap Kodu", @maxlength = "30", @required = "" })
+    </div>
+    <div class="row">
+        <label>Kategori</label>
+        @Html.DropDownListFor(m => m.CategoryID, (List<SelectListItem>)ViewBag.Category, new { @class = "form-control", @required = "" })
+    </div>
+    @*<div class="row">
+            <label><b>Bölge</b></label>
+            @Html.DropDownListFor(m => m.RegionID, (List<SelectListItem>)ViewBag.Regions, new { @class = "form-control", @required = "" })
+        </div>*@
+    <div class="row">
+        <label>Alım Tarihi</label>
+        @Html.TextBoxFor(m => m.DateOfEntry, "{0:yyyy-MM-dd HH:mm}", new { @class = "form-control", @type = "datetime-local", @required = "" })
+    </div>
+
+</div>
+  @Html.HiddenFor(m => m.ID)
+ <button type="submit" class="btn btn-success">Kaydet</button>}

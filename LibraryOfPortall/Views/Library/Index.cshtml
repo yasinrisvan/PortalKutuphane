@@ -1,28 +1,29 @@
 ﻿@using LibraryOfPortall.Models.EntityFramework
 @model List<TblBook>
-@{
-    ViewBag.Title = "Index";
+@{ ViewBag.Title = "Index";
     TblUser user = (TblUser)Session["user"];
     TblUser authority = new TblUser();
     authority.AuthorityID = user is null ? authority.AuthorityID = 3 : authority.AuthorityID = user.AuthorityID;
 
     //   Layout = null;
     //Layout = "~/Views/Shared/_LayoutUser.cshtml";
-    Layout = user is null ? null : "~/Views/Shared/_LayoutUser.cshtml";
-
-}
+    Layout = user is null ? null : "~/Views/Shared/_LayoutUser.cshtml"; }
 
 <h4 style="text-align:center; margin-top:15px"> TYH KÜTÜPHANE </h4>
 <link href="~/Web/dist/css/styles.css" rel="stylesheet" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 <div class="col">
-    <div class="col-2">
-        @if (authority.AuthorityID == 3)
-        {
-            <a href="/User/SignIn" class="btn btn-outline-dark">Sisteme Giriş</a>
-        }
-    </div>
+    @if (user == null)
+    {
+<a href="/User/SignIn" class="btn btn-outline-dark">Sisteme Giriş</a> }
+else
+{
+if (user.AuthorityID == 1)
+{
+<a href="/Library/ReserveBook" class="btn btn-outline-dark">Kütüphaneden Alınan Kitaplar</a>
+                    <a href="/Library/UnRegisteredReserve" class="btn btn-outline-dark">Teslim Alınacak Kitaplar</a>}
+            }
 </div>
 <p>
 </p>
@@ -30,7 +31,7 @@
     <table id="tbl1" class="table table-bordered">
         <thead>
             <tr>
-
+                <th>ID</th>
                 <th>Giriş tarihi</th>
                 <th>Kategori</th>
                 <th>Bulunduğu Bölge</th>
@@ -39,33 +40,43 @@
                 <th>Yazar</th>
                 <th>Yayınevi</th>
                 @*<th>Durum</th>*@
-                @if (authority.AuthorityID == 2 || authority.AuthorityID == 1)
+                @if (user != null)
                 {
-                    <th>İşlemler</th>
-                }
+    <th>İşlemler</th>
+}
             </tr>
         </thead>
         <tbody>
             @foreach (var book in Model)
             {
-            <tr>
+<tr>
+    <td>@book.ID</td>
+    <td>
+        @if (@book.DateOfEntry != null)
+        {
+@book.DateOfEntry.Value.ToString("MM/dd/yyyy") } @*@book.DateOfEntry*@
+    </td>
+    <td>@book.TblCategory.Name</td>
+    <td>@book.TblRegion.Name</td>
+    <td>@book.Code</td>
+    <td>@book.BookName</td>
+    <td>@book.Author</td>
+    <td>@book.PublishingHouse</td>
+    @*<td>@book.Status</td>*@
+    @if (user != null)
+    {
+<td>
+    @Html.ActionLink("Talep Et", "Request", new { id = book.ID }, new { @class = "btn btn-success", onclick = "return confirm('Eğer Talep Ettiğiniz Kitap Farklı Bölgedeyse size ulaşması 2-3 İş Günü Sürecektir Gerçekten Talep Etmek İstiyor Musunuz?')" })
 
-                <td>@book.DateOfEntry</td>
-                <td>@book.TblCategory.Name</td>
-                <td>@book.TblRegion.Name</td>
-                <td>@book.Code</td>
-                <td>@book.BookName</td>
-                <td>@book.Author</td>
-                <td>@book.PublishingHouse</td>
-                @*<td>@book.Status</td>*@
-                @if (authority.AuthorityID == 2 || authority.AuthorityID == 1)
-                {
-                    <td>
-                        @Html.ActionLink("Talep Et", "Request", new { id = book.ID }, new { @class = "btn btn-success", onclick = "return confirm('Gerçekten Talep Etmek İstiyor Musunuz?')" })
-                    </td>
-                }
-            </tr>
-            }
+    @if (user.AuthorityID == 1)
+    {
+<a href="~/Library/BookUpdate/@book.ID" class="btn btn-warning">Güncelle</a>
+                        <a href="~/Library/BookDelete/@book.ID" class="btn btn-danger">Sil</a>
+                                                <button class="btn btn-primary" data-toggle="modal" onclick='EditCategory("@book.ID")'>Kitabı Ver</button>}
+</td>
+}
+</tr>
+}
         </tbody>
     </table>
 </div>
@@ -84,26 +95,72 @@
         language: {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
         },
-        order: [[0, 'desc']],
+        //order: [[1, 'desc']],
     });
 </script>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-@{
-    if (TempData["Message"] != null)
+@{ if (TempData["Message"] != null)
     {
-        <script>
+<script>
         swal("UYARI !", "@TempData["Message"]", "warning");
-        </script>
+</script>
+ }
+if (TempData["MessageSuccess"] != null)
+{
+<script>
+    swal("BAŞARILI !", "@TempData["MessageSuccess"]", "success");
+</script>
+ } }
+
+
+@using (Html.BeginForm("KitapVer", "Library", FormMethod.Post))
+{
+<div class="modal" id="Modal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h6 class="modal-title" id="myModalLabel">Kullanıcı Bilgileri Ekleme</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row">
+                        @Html.TextBox("Kitap_id", "", new { @id = "id", @class = "form-control", @hidden = true })
+                        <label>Ad</label>
+                        @Html.TextBox("Ad", "", new { @ad = "ad", @class = "form-control", @maxlength = "30", @required = "" })
+                        <label>Soyad</label>
+                        @Html.TextBox("Soyad", "", new { @soyad = "soyad", @class = "form-control", @maxlength = "30", @required = "" })
+                        <label>Sicil No</label>
+                        @Html.TextBox("Sicil", "", new { @sicil = "sicil", @class = "form-control", @maxlength = "6", @required = "" })
+                    </div>
+                    <br />
+                    <button class="btn" style="background-color: #269d49; color:antiquewhite">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>}
+
+
+<script>
+    function EditCategory(Book_Id) {
+        var url = "/Library/EditCategory?Kitap_Id=" + Book_Id;
+        $("#Modal1").modal();
+        $.ajax({
+            url: url,
+            type: "get",
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $("#id").val(obj.BookID);
+                //$("#ad").val(obj.Name);
+                //$("#soyad").val(obj.Surname);  //burası gereksiz gibi duruyor duruma göre sileceğim.
+                //$("#sicil").val(obj.RegistryNo);
+            }
+        });
     }
-    if (TempData["MessageSuccess"] != null)
-    {
-        <script>
-        swal("BAŞARILI !", "@TempData["MessageSuccess"]", "success");
-        </script>
-    }
-}
-
-
-
-
+</script>

@@ -1,11 +1,9 @@
 ﻿
 @using LibraryOfPortall.Models.EntityFramework
-@{
-    ViewBag.Title = "_LayoutUser";
-    Layout = null;
-    TblUser user = (TblUser)Session["user"];
-    var userID = user.ID;
-}
+@{ ViewBag.Title = "_LayoutUser";
+                Layout = null;
+                TblUser user = (TblUser)Session["user"];
+                var userID = user.ID; }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +32,21 @@
                             <img src="~/Web/TYH greybackground.png" style="width:180px; height:90px;" />
                         </div>
                         <div class="sb-sidenav-menu-heading">Kategoriler</div>
+
+                        @*@if (user.AuthorityID == 1)
+                        {
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#admin" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        Yönetici
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                                    <div class="collapse" id="admin" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="~/Library/GetAllRequest">Onay Bekleyenler</a>
+                                            <a class="nav-link" href="~/Library/AddBook">Kitap Ekleme</a>
+                                        </nav>
+                                    </div>}*@
+
                         <a class="nav-link" href="~/Library/Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-book"></i>@*<i class="fas fa-bookmark"></i>*@</div>
                             Kütüphane
@@ -52,10 +65,7 @@
 
                             </nav>
                         </div>
-                        <a class="nav-link" href="~/Library/GetAllRequest">
-                            <div class="sb-nav-link-icon"><i class="fas fa-check-double"></i>@*<i class="fas fa-bookmark"></i>*@</div>
-                            Onay Bekleyenler
-                        </a>
+
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#myAccount" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
                             Hesabım
@@ -70,6 +80,16 @@
 
                             </nav>
                         </div>
+                        @if (user.AuthorityID == 1)
+                        {
+                    <a class="nav-link" href="~/Library/GetAllRequest">
+                        <div class="sb-nav-link-icon"><i class="fas fa-check-double"></i></div>
+                        Onay Bekleyenler
+                    </a>
+                                    <a class="nav-link" href="~/Library/AddBook">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-plus-circle"></i></div>
+                                        Kitap Ekleme
+                                    </a>}
                     </div>
                 </div>
 

@@ -15,27 +15,24 @@ namespace LibraryOfPortall.Models.EntityFramework
 using System;
     using System.Collections.Generic;
     
-public partial class TblAuthority
+public partial class TblUnregisteredReserve
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public TblAuthority()
-    {
-
-        this.TblUsers = new HashSet<TblUser>();
-
-    }
-
-
-    public byte ID { get; set; }
+    public int ID { get; set; }
 
     public string Name { get; set; }
 
+    public string Surname { get; set; }
+
+    public string RegistryNo { get; set; }
+
+    public Nullable<int> BookID { get; set; }
+
+    public Nullable<bool> Status { get; set; }
 
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<TblUser> TblUsers { get; set; }
+    public virtual TblBook TblBook { get; set; }
 
 }
 

@@ -2,10 +2,8 @@
 @using LibraryOfPortall.Models.EntityFramework;
 
 @model TblUser
-@{
-    ViewBag.Title = "Register";
-    Layout = null;
-}
+@{ ViewBag.Title = "Register";
+    Layout = null; }
 
 <head>
     <title>Kayıt Ol - TYH</title>
@@ -42,12 +40,16 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="tel" class="form-control" placeholder="TC Kimlik Numaranız" maxlength="11" name="TC" required>
+                                <input type="email" class="form-control" placeholder="Mail Adresiniz" maxlength="50" name="Mail" required>
                             </div>
 
-                            <div class="form-group">
-                                <input type="tel" class="form-control" placeholder="Telefon Numaranız" maxlength="11" name="PhoneNo" required>
-                            </div>
+                            @*<div class="form-group">
+                                    <input type="tel" class="form-control" placeholder="TC Kimlik Numaranız" maxlength="11" name="TC" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="tel" class="form-control" placeholder="Telefon Numaranız" maxlength="11" name="PhoneNo" required>
+                                </div>*@
 
                             <div class="form-group">
                                 <input type="number" class="form-control" placeholder="Sicil Numaranız" name="RegistryNo" required>
@@ -90,3 +92,12 @@
     <script src="~/Content/login/js/jquery.min.js"></script>
     <script src="~/Content/login/js/main.js"></script>
 </body>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+@if (@ViewBag.Messages != null)
+{
+<script>
+        swal("UYARI", "@ViewBag.Messages", "warning");
+</script>
+}

@@ -32,7 +32,7 @@ namespace LibraryOfPortall.Controllers
         public ActionResult SignIn() { return View(); }
 
         [HttpPost, AllowAnonymous]
-        public ActionResult SignIn(FormCollection form)
+        public ActionResult SignIn(FormCollection form,string ReturnUrl)
         {
             var registryNo = form["RegistryNo"];
             var password = form["Password"];
@@ -45,7 +45,8 @@ namespace LibraryOfPortall.Controllers
             {
                 FormsAuthentication.SetAuthCookie(user.ID.ToString(), false);
                 Session.Add("user", user);
-                return RedirectToAction("Index","Library");
+                return ReturnUrl == null ? RedirectToAction("Index", "Library") : (ActionResult)Redirect(ReturnUrl);
+               // return RedirectToAction("Index","Library");
             }
             else
             {
@@ -86,6 +87,7 @@ namespace LibraryOfPortall.Controllers
         [HttpPost, AllowAnonymous]
         public ActionResult Register(TblUser user)
         {
+            Complete();
             var regUser = db.TblUsers.Where(m => m.RegistryNo == user.RegistryNo).FirstOrDefault();
             if(regUser is null)
             {
@@ -95,12 +97,14 @@ namespace LibraryOfPortall.Controllers
                 db.TblUsers.Add(user);
                 db.SaveChanges();
                 ViewBag.MessageSuccess = "Kaydınız Olusturulmustur";
+                return View("SignIn");
             }
             else
             {
-                ViewBag.Message = "Kaydınız Bulunmaktadır";
+                ViewBag.Messages = "Kaydınız Bulunmaktadır";
+                return View("Register");
             }
-            return RedirectToAction("SignIn");
+            //return RedirectToAction("SignIn");
         }
 
         public ActionResult AccountDetails()

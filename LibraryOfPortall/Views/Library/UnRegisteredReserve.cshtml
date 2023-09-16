@@ -1,20 +1,13 @@
-﻿
-@using LibraryOfPortall.Models.EntityFramework
-@model List<TblReserved>
-@{ ViewBag.Title = "GetReserve";
+﻿@using LibraryOfPortall.Models.EntityFramework
+@model List<TblUnregisteredReserve>
+@{
+    ViewBag.Title = "UnRegisteredReserve";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
     TblUser user = (TblUser)Session["user"];
     TblUser authority = new TblUser();
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
     authority.AuthorityID = user is null ? authority.AuthorityID = 3 : authority.AuthorityID = user.AuthorityID; }
 
-@if (@TempData["sart"].ToString() == "GetReserve")
-{
-<h4 style="text-align:center; margin-top:15px"> Onaylanan Kitaplar </h4> }
-else
-{
-<h4 style="text-align:center; margin-top:15px"> Kütüphaneden Alınan Kitaplar </h4>}
-
-
+<h4 style="text-align:center; margin-top:15px"> Teslin Alınacak Kitaplar </h4>
 <link href="~/Web/dist/css/styles.css" rel="stylesheet" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
@@ -24,43 +17,29 @@ else
         <thead>
             <tr>
 
-                <th>Kullanıcı Ad Soyad</th>
-                <th>Bulunduğu Bölge</th>
-                <th>Kitap - Dergi Adı</th>
-                <th>Kitap Bölgesi</th>
-                <th>Yazar</th>
-                <th>Onay Tarihi</th>
-
-                <th>İşlemler</th>
+                <th>No</th>
+                <th>Kitap Adı</th>
+                <th>Kitap Kodu</th>
+                <th>Kitabı Alan Ad Soyad</th>
+                <th>Sicil No</th>
+                <th>İşlem</th>
 
             </tr>
         </thead>
         <tbody>
-            @foreach (var reserve in Model)
+            @foreach (var item in Model)
             {
-<tr>
-    <td>@reserve.TblUser.Name @reserve.TblUser.Surname </td>
-    <td>@reserve.TblUser.TblRegion.Name</td>
-    <td>@reserve.TblBook.BookName</td>
-    <td>@reserve.TblBook.TblRegion.Name</td>
-    <td>@reserve.TblBook.Author</td>
-    <td>@reserve.AcceptDate</td>
-    @if (reserve.Status is false)
-    {
-<td>Teslim Edildi</td> }
-                else
-                {
-<td>
-    @if (@TempData["sart"].ToString() == "GetReserve")
-    {
-<a href="~/Library/PickUp/@reserve.ID" class="btn btn-outline-info">Teslim Et</a> }
-else
-{
-<a href="~/Library/PickUp/@reserve.ID" class="btn btn-outline-info">Teslim Al</a>}
-</td>}
-
-
-</tr>}
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.TblBook.BookName</td>
+                    <td>@item.TblBook.Code</td>
+                    <td>@item.Name @item.Surname</td>
+                    <td>@item.RegistryNo</td>
+                    <td>
+                        <a href="~/Library/TeslimAl/@item.ID" class="btn btn-outline-info">Teslim Al</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
@@ -80,17 +59,16 @@ else
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
         },
         order: [[0, 'desc']],
-    });
-</script>
+    });</script>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-@{ if (TempData["Message"] != null)
+@{
+    if (TempData["Message"] != null)
     {
-<script>
-        swal("UYARI !", "@TempData["Message"]", "warning");
-</script> }
-            if (TempData["MessageSuccess"] != null)
-            {
-<script>
-        swal("BAŞARILI !", "@TempData["MessageSuccess"]", "success");
-</script> } }
+        <script>
+        swal("UYARI !", "@TempData["Message"]", "success");
+        </script>
+    }
+}
+
+

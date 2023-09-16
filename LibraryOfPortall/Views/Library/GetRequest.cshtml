@@ -33,7 +33,7 @@
 
                 <td>@request.TblBook.BookName</td>
                 <td>@request.TblBook.Author</td>
-                @if (request.Status is "Onay Bekleniyor")
+                @if (request.Status == "Onay Bekleniyor")
                 {
                     <td>@request.Status</td>
                     <td>

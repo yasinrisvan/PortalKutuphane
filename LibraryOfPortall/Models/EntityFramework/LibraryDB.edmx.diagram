@@ -4,26 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ecd294d3092741e4bf930cf0241c1bff" Name="Diagram1">
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblBook" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblCategory" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblCity" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblRegion" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
-        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblBooks_TblCategories" ManuallyRouted="false" />
-        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblBooks_TblRegions" ManuallyRouted="false" />
-        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblRegions_TblCities" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblAuthority" Width="1.5" PointX="6.375" PointY="6" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblDepartment" Width="1.5" PointX="6.375" PointY="8.375" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblReserved" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblUser" Width="1.5" PointX="8.625" PointY="0.875" />
+      <Diagram DiagramId="ecd294d3092741e4bf930cf0241c1bff" Name="Diagram1" ZoomLevel="47">
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblAuthority" Width="1.5" PointX="6" PointY="10.25" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblBook" Width="1.5" PointX="5.25" PointY="5" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblCategory" Width="1.5" PointX="3" PointY="3" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblCity" Width="1.5" PointX="0.75" PointY="6" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblDepartment" Width="1.5" PointX="6" PointY="1.875" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblRegion" Width="1.5" PointX="3" PointY="5.625" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblRequest" Width="1.5" PointX="13.5" PointY="5.5" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblReserved" Width="1.5" PointX="10.5" PointY="5.5" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblUser" Width="1.5" PointX="8.25" PointY="4.75" />
         <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblUsers_TblAuthorities" />
+        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblBooks_TblCategories" />
+        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblBooks_TblRegions" />
+        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblRequests_TblBooks" />
+        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblReserveds_TblBooks" />
+        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblRegions_TblCities" />
         <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblUsers_TblDepartments" />
         <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblUsers_TblRegions" />
-        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblReserveds_TblBooks" />
-        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblReserveds_TblUsers" />
-        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblRequest" Width="1.5" PointX="10.875" PointY="1.5" />
-        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblRequests_TblBooks" />
         <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblRequests_TblUsers" />
+        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblReserveds_TblUsers" />
+        <EntityTypeShape EntityType="TYHKUTUPHANEModel.TblUnregisteredReserve" Width="1.5" PointX="8.375" PointY="0.75" />
+        <AssociationConnector Association="TYHKUTUPHANEModel.FK_TblUnregisteredReserve_TblBooks" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
